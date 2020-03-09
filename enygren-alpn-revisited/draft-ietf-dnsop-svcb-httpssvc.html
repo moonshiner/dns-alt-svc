@@ -860,7 +860,7 @@ table.left {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Schwartz, et al.</td>
-<td class="center">Expires 7 September 2020</td>
+<td class="center">Expires 10 September 2020</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -873,12 +873,12 @@ table.left {
 <dd class="internet-draft">draft-ietf-dnsop-svcb-httpssvc-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2020-03-06" class="published">6 March 2020</time>
+<time datetime="2020-03-09" class="published">9 March 2020</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2020-09-07">7 September 2020</time></dd>
+<dd class="expires"><time datetime="2020-09-10">10 September 2020</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -949,7 +949,7 @@ available there.  The authors (gratefully) accept pull requests.<a href="#sectio
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 7 September 2020.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 10 September 2020.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -2089,7 +2089,7 @@ to form the SvcParamValue.  These pairs MUST exactly fill the SvcParamValue;
 otherwise, the SvcParamValue is malformed.<a href="#section-6.1-7" class="pilcrow">¶</a></p>
 <p id="section-6.1-8">For "no-default-alpn", the presentation and wire format values MUST be
 empty.<a href="#section-6.1-8" class="pilcrow">¶</a></p>
-<p id="section-6.1-9">Each scheme that is mapped to SVCB defines a
+<p id="section-6.1-9">Each scheme that uses this SvcParamKey defines a
 "default set" of supported ALPNs, which SHOULD NOT
 be empty.  To determine the set of protocol suites supported by an
 endpoint (the "ALPN set"), the client parses the set of ALPN identifiers in
@@ -2102,7 +2102,7 @@ the protocol suite associated with the ALPN ID.<a href="#section-6.1-9" class="p
 can be used with both TLS and DTLS) are not compatible with this
 SvcParamKey and MUST NOT be included in the ALPN set.<a href="#section-6.1-10" class="pilcrow">¶</a></p>
 <p id="section-6.1-11">Clients SHOULD NOT attempt connection to a service endpoint whose
-alpn set does not contain any compatible protocol suites.  To ensure
+ALPN set does not contain any compatible protocol suites.  To ensure
 consistency of behavior, clients MAY reject the entire SVCB RRSet and fall
 back to basic connection establishment if all of the RRs indicate
 "no-default-alpn", even if connection could have succeeded using a
@@ -2524,7 +2524,7 @@ be populated with the registrations below:<a href="#section-11.1.2-1" class="pil
               <tr>
                 <td class="text-left" rowspan="1" colspan="1">1</td>
                 <td class="text-left" rowspan="1" colspan="1">alpn</td>
-                <td class="text-left" rowspan="1" colspan="1">Additional supported protocol</td>
+                <td class="text-left" rowspan="1" colspan="1">Additional supported protocols</td>
                 <td class="text-left" rowspan="1" colspan="1">(This document)</td>
               </tr>
               <tr>
