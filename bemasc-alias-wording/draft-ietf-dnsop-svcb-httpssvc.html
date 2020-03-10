@@ -1543,7 +1543,7 @@ Name TTL IN SVCB SvcFieldPriority SvcDomainName SvcFieldValue
 <p id="section-2.1-3">The SVCB record is defined specifically within
 the Internet ("IN") Class (<span>[<a href="#RFC1035" class="xref">RFC1035</a>]</span>).
 SvcFieldPriority is a number in the range 0-65535,
-SvcDomainName is a domain name,
+SvcDomainName is a domain name (absolute or relative),
 and SvcFieldValue is a set of key=value pairs present for the ServiceForm.
 Each key SHALL appear at most once in a SvcFieldValue.
 The SvcFieldValue is empty for the AliasForm.<a href="#section-2.1-3" class="pilcrow">¶</a></p>
@@ -1720,8 +1720,9 @@ they would publish a record such as:<a href="#section-2.5-2" class="pilcrow">¶<
 example.com. 3600 IN SVCB 0 svc.example.net.
 </pre><a href="#section-2.5-3" class="pilcrow">¶</a>
 </div>
-<p id="section-2.5-4">The SvcDomainName MUST be the fully-qualified name of a domain that
-has SVCB, AAAA, or A records.<a href="#section-2.5-4" class="pilcrow">¶</a></p>
+<p id="section-2.5-4">In AliasForm, SvcDomainName MUST be the name of a domain that has SVCB, AAAA,
+or A records.  It MUST NOT be equal to the owner name, as this would cause a
+loop.<a href="#section-2.5-4" class="pilcrow">¶</a></p>
 <p id="section-2.5-5">Note that the SVCB record's owner name MAY be the canonical name
 of a CNAME record, and the SvcDomainName MAY be the owner of a CNAME
 record. Clients and recursive resolvers MUST follow CNAMEs as normal.<a href="#section-2.5-5" class="pilcrow">¶</a></p>
@@ -1759,7 +1760,8 @@ not recognize.<a href="#section-2.6-2" class="pilcrow">¶</a></p>
           <h4 id="name-special-handling-of-for-svc">
 <a href="#section-2.6.1" class="section-number selfRef">2.6.1. </a><a href="#name-special-handling-of-for-svc" class="section-name selfRef">Special handling of "." for SvcDomainName in ServiceForm</a>
           </h4>
-<p id="section-2.6.1-1">For ServiceForm SVCB RRs, if SvcDomainName has the value ".", then the
+<p id="section-2.6.1-1">For ServiceForm SVCB RRs, if SvcDomainName has the value "." (represented in
+the wire format as a zero-length label), then the
 owner name of this record MUST be used as the effective
 SvcDomainName.<a href="#section-2.6.1-1" class="pilcrow">¶</a></p>
 <p id="section-2.6.1-2">For example, in the following example "svc2.example.net"
