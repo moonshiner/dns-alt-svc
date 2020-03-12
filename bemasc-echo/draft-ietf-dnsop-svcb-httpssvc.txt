@@ -5,9 +5,9 @@
 DNSOP Working Group                                          B. Schwartz
 Internet-Draft                                                    Google
 Intended status: Standards Track                               M. Bishop
-Expires: 12 September 2020                                     E. Nygren
+Expires: 13 September 2020                                     E. Nygren
                                                      Akamai Technologies
-                                                           11 March 2020
+                                                           12 March 2020
 
 
  Service binding and parameter specification via the DNS (DNS SVCB and
@@ -53,7 +53,7 @@ Abstract
 
 
 
-Schwartz, et al.        Expires 12 September 2020               [Page 1]
+Schwartz, et al.        Expires 13 September 2020               [Page 1]
 
 Internet-Draft        SVCB and HTTPSSVC RRs for DNS           March 2020
 
@@ -73,7 +73,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 12 September 2020.
+   This Internet-Draft will expire on 13 September 2020.
 
 Copyright Notice
 
@@ -109,7 +109,7 @@ Table of Contents
 
 
 
-Schwartz, et al.        Expires 12 September 2020               [Page 2]
+Schwartz, et al.        Expires 13 September 2020               [Page 2]
 
 Internet-Draft        SVCB and HTTPSSVC RRs for DNS           March 2020
 
@@ -134,7 +134,7 @@ Internet-Draft        SVCB and HTTPSSVC RRs for DNS           March 2020
    6.  Initial SvcParamKeys  . . . . . . . . . . . . . . . . . . . .  19
      6.1.  "alpn" and "no-default-alpn"  . . . . . . . . . . . . . .  19
      6.2.  "port"  . . . . . . . . . . . . . . . . . . . . . . . . .  21
-     6.3.  "echo"  . . . . . . . . . . . . . . . . . . . . . . . . .  21
+     6.3.  "echoconfig"  . . . . . . . . . . . . . . . . . . . . . .  21
      6.4.  "ipv4hint" and "ipv6hint" . . . . . . . . . . . . . . . .  21
    7.  Using SVCB with HTTPS and HTTP  . . . . . . . . . . . . . . .  22
      7.1.  Owner names for HTTPSSVC records  . . . . . . . . . . . .  23
@@ -165,7 +165,7 @@ Internet-Draft        SVCB and HTTPSSVC RRs for DNS           March 2020
 
 
 
-Schwartz, et al.        Expires 12 September 2020               [Page 3]
+Schwartz, et al.        Expires 13 September 2020               [Page 3]
 
 Internet-Draft        SVCB and HTTPSSVC RRs for DNS           March 2020
 
@@ -221,7 +221,7 @@ Internet-Draft        SVCB and HTTPSSVC RRs for DNS           March 2020
 
 
 
-Schwartz, et al.        Expires 12 September 2020               [Page 4]
+Schwartz, et al.        Expires 13 September 2020               [Page 4]
 
 Internet-Draft        SVCB and HTTPSSVC RRs for DNS           March 2020
 
@@ -277,7 +277,7 @@ Internet-Draft        SVCB and HTTPSSVC RRs for DNS           March 2020
 
 
 
-Schwartz, et al.        Expires 12 September 2020               [Page 5]
+Schwartz, et al.        Expires 13 September 2020               [Page 5]
 
 Internet-Draft        SVCB and HTTPSSVC RRs for DNS           March 2020
 
@@ -304,8 +304,8 @@ Internet-Draft        SVCB and HTTPSSVC RRs for DNS           March 2020
    configuration.  This can be expressed in the following form:
 
    $ORIGIN svc.example. ; A hosting provider.
-   pool  7200 IN HTTPSSVC 1 h3pool alpn=h2,h3 echo="123..."
-                 HTTPSSVC 2 .      alpn=h2 echo="abc..."
+   pool  7200 IN HTTPSSVC 1 h3pool alpn=h2,h3 echoconfig="123..."
+                 HTTPSSVC 2 .      alpn=h2 echoconfig="abc..."
    pool   300 IN A        192.0.2.2
                  AAAA     2001:db8::2
    h3pool 300 IN A        192.0.2.3
@@ -333,7 +333,7 @@ Internet-Draft        SVCB and HTTPSSVC RRs for DNS           March 2020
 
 
 
-Schwartz, et al.        Expires 12 September 2020               [Page 6]
+Schwartz, et al.        Expires 13 September 2020               [Page 6]
 
 Internet-Draft        SVCB and HTTPSSVC RRs for DNS           March 2020
 
@@ -389,7 +389,7 @@ Internet-Draft        SVCB and HTTPSSVC RRs for DNS           March 2020
 
 
 
-Schwartz, et al.        Expires 12 September 2020               [Page 7]
+Schwartz, et al.        Expires 13 September 2020               [Page 7]
 
 Internet-Draft        SVCB and HTTPSSVC RRs for DNS           March 2020
 
@@ -445,7 +445,7 @@ Internet-Draft        SVCB and HTTPSSVC RRs for DNS           March 2020
 
 
 
-Schwartz, et al.        Expires 12 September 2020               [Page 8]
+Schwartz, et al.        Expires 13 September 2020               [Page 8]
 
 Internet-Draft        SVCB and HTTPSSVC RRs for DNS           March 2020
 
@@ -501,7 +501,7 @@ Internet-Draft        SVCB and HTTPSSVC RRs for DNS           March 2020
 
 
 
-Schwartz, et al.        Expires 12 September 2020               [Page 9]
+Schwartz, et al.        Expires 13 September 2020               [Page 9]
 
 Internet-Draft        SVCB and HTTPSSVC RRs for DNS           March 2020
 
@@ -557,7 +557,7 @@ Internet-Draft        SVCB and HTTPSSVC RRs for DNS           March 2020
 
 
 
-Schwartz, et al.        Expires 12 September 2020              [Page 10]
+Schwartz, et al.        Expires 13 September 2020              [Page 10]
 
 Internet-Draft        SVCB and HTTPSSVC RRs for DNS           March 2020
 
@@ -613,7 +613,7 @@ Internet-Draft        SVCB and HTTPSSVC RRs for DNS           March 2020
 
 
 
-Schwartz, et al.        Expires 12 September 2020              [Page 11]
+Schwartz, et al.        Expires 13 September 2020              [Page 11]
 
 Internet-Draft        SVCB and HTTPSSVC RRs for DNS           March 2020
 
@@ -646,7 +646,7 @@ Internet-Draft        SVCB and HTTPSSVC RRs for DNS           March 2020
 
    _8443._foo.api.example.com. 7200 IN SVCB 0 svc4.example.net.
    svc4.example.net.  7200  IN SVCB 3 svc4.example.net. (
-       alpn="bar" port="8004" echo="..." )
+       alpn="bar" port="8004" echoconfig="..." )
 
    would indicate that "foo://api.example.com:8443" is aliased to the
    service endpoints offered at "svc4.example.net" on port number 8004,
@@ -669,7 +669,7 @@ Internet-Draft        SVCB and HTTPSSVC RRs for DNS           March 2020
 
 
 
-Schwartz, et al.        Expires 12 September 2020              [Page 12]
+Schwartz, et al.        Expires 13 September 2020              [Page 12]
 
 Internet-Draft        SVCB and HTTPSSVC RRs for DNS           March 2020
 
@@ -725,7 +725,7 @@ Internet-Draft        SVCB and HTTPSSVC RRs for DNS           March 2020
 
 
 
-Schwartz, et al.        Expires 12 September 2020              [Page 13]
+Schwartz, et al.        Expires 13 September 2020              [Page 13]
 
 Internet-Draft        SVCB and HTTPSSVC RRs for DNS           March 2020
 
@@ -747,7 +747,7 @@ Internet-Draft        SVCB and HTTPSSVC RRs for DNS           March 2020
 
    www.example.com.  7200  IN HTTPSSVC svc.example.net.
    svc.example.net.  7200  IN CNAME    svc2.example.net.
-   svc2.example.net. 7200  IN HTTPSSVC 1 . port=8002 echo="..."
+   svc2.example.net. 7200  IN HTTPSSVC 1 . port=8002 echoconfig="..."
    svc2.example.net. 300   IN A        192.0.2.2
    svc2.example.net. 300   IN AAAA     2001:db8::2
 
@@ -781,7 +781,7 @@ Internet-Draft        SVCB and HTTPSSVC RRs for DNS           March 2020
 
 
 
-Schwartz, et al.        Expires 12 September 2020              [Page 14]
+Schwartz, et al.        Expires 13 September 2020              [Page 14]
 
 Internet-Draft        SVCB and HTTPSSVC RRs for DNS           March 2020
 
@@ -837,7 +837,7 @@ Internet-Draft        SVCB and HTTPSSVC RRs for DNS           March 2020
 
 
 
-Schwartz, et al.        Expires 12 September 2020              [Page 15]
+Schwartz, et al.        Expires 13 September 2020              [Page 15]
 
 Internet-Draft        SVCB and HTTPSSVC RRs for DNS           March 2020
 
@@ -862,7 +862,7 @@ Internet-Draft        SVCB and HTTPSSVC RRs for DNS           March 2020
    *  It allows the client to use the SvcFieldValue, if present, which
       is only usable with a specific SvcDomainName.  The SvcFieldValue
       may include information that enhances performance (e.g. alpn) and
-      privacy (e.g. echo).
+      privacy (e.g. echoconfig).
 
    *  It allows the origin to delegate the apex domain.
 
@@ -893,7 +893,7 @@ Internet-Draft        SVCB and HTTPSSVC RRs for DNS           March 2020
 
 
 
-Schwartz, et al.        Expires 12 September 2020              [Page 16]
+Schwartz, et al.        Expires 13 September 2020              [Page 16]
 
 Internet-Draft        SVCB and HTTPSSVC RRs for DNS           March 2020
 
@@ -949,7 +949,7 @@ Internet-Draft        SVCB and HTTPSSVC RRs for DNS           March 2020
 
 
 
-Schwartz, et al.        Expires 12 September 2020              [Page 17]
+Schwartz, et al.        Expires 13 September 2020              [Page 17]
 
 Internet-Draft        SVCB and HTTPSSVC RRs for DNS           March 2020
 
@@ -973,10 +973,10 @@ Internet-Draft        SVCB and HTTPSSVC RRs for DNS           March 2020
    response, the client MAY initiate a connection as if the SVCB query
    returned NODATA, but MUST NOT transmit any information that could be
    altered by the SVCB response until it arrives.  For example, a TLS
-   ClientHello can be altered by the "echo" value of an SVCB response
-   (Section 6.3).  Clients implementing this optimization SHOULD wait
-   for 50 milliseconds before starting optimistic pre-connection, as per
-   the guidance in [HappyEyeballsV2].
+   ClientHello can be altered by the "echoconfig" value of an SVCB
+   response (Section 6.3).  Clients implementing this optimization
+   SHOULD wait for 50 milliseconds before starting optimistic pre-
+   connection, as per the guidance in [HappyEyeballsV2].
 
    An SVCB record is consistent with a connection if the client would
    attempt an equivalent connection when making use of that record.  If
@@ -986,14 +986,14 @@ Internet-Draft        SVCB and HTTPSSVC RRs for DNS           March 2020
    protocol that uses TLS over TCP:
 
    _1234._bar.example.com. 300 IN SVCB 1 svc1.example.net (
-       echo="111..." ipv6hint=2001:db8::1 port=1234 ... )
+       echoconfig="111..." ipv6hint=2001:db8::1 port=1234 ... )
                                   SVCB 2 svc2.example.net (
-       echo="222..." ipv6hint=2001:db8::2 port=1234 ... )
+       echoconfig="222..." ipv6hint=2001:db8::2 port=1234 ... )
 
    If the client has an in-progress TCP connection to
    "[2001:db8::2]:1234", it MAY proceed with TLS on that connection
-   using "echo="222..."", even though the other record in the RRSet has
-   higher priority.
+   using "echoconfig="222..."", even though the other record in the
+   RRSet has higher priority.
 
    If none of the SVCB records are consistent with any active or in-
    progress connection, clients must proceed as described in Step 3 of
@@ -1005,7 +1005,7 @@ Internet-Draft        SVCB and HTTPSSVC RRs for DNS           March 2020
 
 
 
-Schwartz, et al.        Expires 12 September 2020              [Page 18]
+Schwartz, et al.        Expires 13 September 2020              [Page 18]
 
 Internet-Draft        SVCB and HTTPSSVC RRs for DNS           March 2020
 
@@ -1061,7 +1061,7 @@ Internet-Draft        SVCB and HTTPSSVC RRs for DNS           March 2020
 
 
 
-Schwartz, et al.        Expires 12 September 2020              [Page 19]
+Schwartz, et al.        Expires 13 September 2020              [Page 19]
 
 Internet-Draft        SVCB and HTTPSSVC RRs for DNS           March 2020
 
@@ -1117,7 +1117,7 @@ Internet-Draft        SVCB and HTTPSSVC RRs for DNS           March 2020
 
 
 
-Schwartz, et al.        Expires 12 September 2020              [Page 20]
+Schwartz, et al.        Expires 13 September 2020              [Page 20]
 
 Internet-Draft        SVCB and HTTPSSVC RRs for DNS           March 2020
 
@@ -1143,13 +1143,13 @@ Internet-Draft        SVCB and HTTPSSVC RRs for DNS           March 2020
    The wire format of the SvcParamValue is the corresponding 2 octet
    numeric value in network byte order.
 
-6.3.  "echo"
+6.3.  "echoconfig"
 
-   The SvcParamKey to enable Encrypted ClientHello (ECHO) is "echo".
-   Its value is defined in Section 8.  It is applicable to most TLS-
-   based protocols.
+   The SvcParamKey to enable Encrypted ClientHello (ECHO) is
+   "echoconfig".  Its value is defined in Section 8.  It is applicable
+   to most TLS-based protocols.
 
-   When publishing a record containing an "echo" parameter, the
+   When publishing a record containing an "echoconfig" parameter, the
    publisher MUST ensure that all IP addresses of SvcDomainName
    correspond to servers that have access to the corresponding private
    key or are authoritative for the public name.  (See Section 7.2.2 of
@@ -1173,7 +1173,7 @@ Internet-Draft        SVCB and HTTPSSVC RRs for DNS           March 2020
 
 
 
-Schwartz, et al.        Expires 12 September 2020              [Page 21]
+Schwartz, et al.        Expires 13 September 2020              [Page 21]
 
 Internet-Draft        SVCB and HTTPSSVC RRs for DNS           March 2020
 
@@ -1229,7 +1229,7 @@ Internet-Draft        SVCB and HTTPSSVC RRs for DNS           March 2020
 
 
 
-Schwartz, et al.        Expires 12 September 2020              [Page 22]
+Schwartz, et al.        Expires 13 September 2020              [Page 22]
 
 Internet-Draft        SVCB and HTTPSSVC RRs for DNS           March 2020
 
@@ -1285,7 +1285,7 @@ Internet-Draft        SVCB and HTTPSSVC RRs for DNS           March 2020
 
 
 
-Schwartz, et al.        Expires 12 September 2020              [Page 23]
+Schwartz, et al.        Expires 13 September 2020              [Page 23]
 
 Internet-Draft        SVCB and HTTPSSVC RRs for DNS           March 2020
 
@@ -1341,7 +1341,7 @@ Internet-Draft        SVCB and HTTPSSVC RRs for DNS           March 2020
 
 
 
-Schwartz, et al.        Expires 12 September 2020              [Page 24]
+Schwartz, et al.        Expires 13 September 2020              [Page 24]
 
 Internet-Draft        SVCB and HTTPSSVC RRs for DNS           March 2020
 
@@ -1397,14 +1397,14 @@ Internet-Draft        SVCB and HTTPSSVC RRs for DNS           March 2020
 
 
 
-Schwartz, et al.        Expires 12 September 2020              [Page 25]
+Schwartz, et al.        Expires 13 September 2020              [Page 25]
 
 Internet-Draft        SVCB and HTTPSSVC RRs for DNS           March 2020
 
 
 8.  SVCB/HTTPSSVC parameter for ECHO configuration
 
-   The SVCB "echo" parameter is defined for conveying the ECHO
+   The SVCB "echoconfig" parameter is defined for conveying the ECHO
    configuration of an alternative service.  In wire format, the value
    of the parameter is an ECHOConfigs vector [ECHO], including the
    redundant length prefix.  In presentation format, the value is
@@ -1422,8 +1422,8 @@ Internet-Draft        SVCB and HTTPSSVC RRs for DNS           March 2020
 
    1.  Perform connection establishment using HTTPSSVC as described in
        Section 3, but do not fall back to the origin's A/AAAA records.
-       If all the HTTPSSVC RRs have an "echo" key, and they all fail,
-       terminate connection establishment.
+       If all the HTTPSSVC RRs have an "echoconfig" key, and they all
+       fail, terminate connection establishment.
 
    2.  If the client implements Alt-Svc, try to connect using any
        entries from the Alt-Svc cache.
@@ -1435,12 +1435,12 @@ Internet-Draft        SVCB and HTTPSSVC RRs for DNS           March 2020
 
 8.2.  Deployment considerations
 
-   An HTTPSSVC RRSet containing some RRs with an "echo" key and some
+   An HTTPSSVC RRSet containing some RRs with "echoconfig" and some
    without is vulnerable to a downgrade attack.  This configuration is
    NOT RECOMMENDED.  Zone owners who do use such a mixed configuration
-   SHOULD mark the RRs with an "echo" key as more preferred (i.e.
-   smaller SvcFieldPriority) than those without, in order to maximize
-   the likelihood that ECHO will be used in the absence of an active
+   SHOULD mark the RRs with "echoconfig" as more preferred (i.e. smaller
+   SvcFieldPriority) than those without, in order to maximize the
+   likelihood that ECHO will be used in the absence of an active
    adversary.
 
 9.  Interaction with other standards
@@ -1453,7 +1453,7 @@ Internet-Draft        SVCB and HTTPSSVC RRs for DNS           March 2020
 
 
 
-Schwartz, et al.        Expires 12 September 2020              [Page 26]
+Schwartz, et al.        Expires 13 September 2020              [Page 26]
 
 Internet-Draft        SVCB and HTTPSSVC RRs for DNS           March 2020
 
@@ -1509,7 +1509,7 @@ Internet-Draft        SVCB and HTTPSSVC RRs for DNS           March 2020
 
 
 
-Schwartz, et al.        Expires 12 September 2020              [Page 27]
+Schwartz, et al.        Expires 13 September 2020              [Page 27]
 
 Internet-Draft        SVCB and HTTPSSVC RRs for DNS           March 2020
 
@@ -1543,7 +1543,7 @@ Internet-Draft        SVCB and HTTPSSVC RRs for DNS           March 2020
     | 4           | ipv4hint        | IPv4 address hints  | (This     |
     |             |                 |                     | document) |
     +-------------+-----------------+---------------------+-----------+
-    | 5           | echo            | Encrypted           | (This     |
+    | 5           | echoconfig      | Encrypted           | (This     |
     |             |                 | ClientHello info    | document) |
     +-------------+-----------------+---------------------+-----------+
     | 6           | ipv6hint        | IPv6 address hints  | (This     |
@@ -1565,7 +1565,7 @@ Internet-Draft        SVCB and HTTPSSVC RRs for DNS           March 2020
 
 
 
-Schwartz, et al.        Expires 12 September 2020              [Page 28]
+Schwartz, et al.        Expires 13 September 2020              [Page 28]
 
 Internet-Draft        SVCB and HTTPSSVC RRs for DNS           March 2020
 
@@ -1621,7 +1621,7 @@ Internet-Draft        SVCB and HTTPSSVC RRs for DNS           March 2020
 
 
 
-Schwartz, et al.        Expires 12 September 2020              [Page 29]
+Schwartz, et al.        Expires 13 September 2020              [Page 29]
 
 Internet-Draft        SVCB and HTTPSSVC RRs for DNS           March 2020
 
@@ -1677,7 +1677,7 @@ Internet-Draft        SVCB and HTTPSSVC RRs for DNS           March 2020
 
 
 
-Schwartz, et al.        Expires 12 September 2020              [Page 30]
+Schwartz, et al.        Expires 13 September 2020              [Page 30]
 
 Internet-Draft        SVCB and HTTPSSVC RRs for DNS           March 2020
 
@@ -1733,7 +1733,7 @@ Internet-Draft        SVCB and HTTPSSVC RRs for DNS           March 2020
 
 
 
-Schwartz, et al.        Expires 12 September 2020              [Page 31]
+Schwartz, et al.        Expires 13 September 2020              [Page 31]
 
 Internet-Draft        SVCB and HTTPSSVC RRs for DNS           March 2020
 
@@ -1789,7 +1789,7 @@ Internet-Draft        SVCB and HTTPSSVC RRs for DNS           March 2020
 
 
 
-Schwartz, et al.        Expires 12 September 2020              [Page 32]
+Schwartz, et al.        Expires 13 September 2020              [Page 32]
 
 Internet-Draft        SVCB and HTTPSSVC RRs for DNS           March 2020
 
@@ -1845,7 +1845,7 @@ A.2.  Differences from the proposed HTTP record
 
 
 
-Schwartz, et al.        Expires 12 September 2020              [Page 33]
+Schwartz, et al.        Expires 13 September 2020              [Page 33]
 
 Internet-Draft        SVCB and HTTPSSVC RRs for DNS           March 2020
 
@@ -1901,7 +1901,7 @@ B.3.  Wire Format
 
 
 
-Schwartz, et al.        Expires 12 September 2020              [Page 34]
+Schwartz, et al.        Expires 13 September 2020              [Page 34]
 
 Internet-Draft        SVCB and HTTPSSVC RRs for DNS           March 2020
 
@@ -1957,7 +1957,7 @@ Appendix C.  Change history
 
 
 
-Schwartz, et al.        Expires 12 September 2020              [Page 35]
+Schwartz, et al.        Expires 13 September 2020              [Page 35]
 
 Internet-Draft        SVCB and HTTPSSVC RRs for DNS           March 2020
 
@@ -2013,4 +2013,4 @@ Authors' Addresses
 
 
 
-Schwartz, et al.        Expires 12 September 2020              [Page 36]
+Schwartz, et al.        Expires 13 September 2020              [Page 36]
