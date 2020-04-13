@@ -1,6 +1,6 @@
 {
   "magic": "B8n2c@e8kvfx",
-  "timestamp": "2020-04-07T01:54:43.056256+00:00",
+  "timestamp": "2020-04-13T18:26:46.197803+00:00",
   "repo": "MikeBishop/dns-alt-svc",
   "labels": [
     {
@@ -1944,9 +1944,17 @@
       "labels": [],
       "body": "SVCB doesn't change anything about CNAME, or really have any interesting interaction with CNAME, but it's mentioned all over the text.  We might be able to simplify this.\r\n\r\n> \"\"\"\r\n> When a prior CNAME or SVCB record has aliased to an SVCB record, each\r\n> \u00a0 \u00a0RR shall be returned under its own owner name.\r\n> \"\"\"\r\n> \r\n> If I am not misinterpreting this, this seems to be the natural way CNAME works\r\n> and I am wondering if the text should not be removed from this section. My\r\n> general comment is that the text refers too much to CNAME. Probably only the\r\n> fall back function of CNAME should be mentioned in the main text and other\r\n> considerations may be moved to the appendix to ease the reading. This is\r\n> obviously just a comment. \r\n> \r\n\r\n> \"\"\"\r\n> \u00a0Note that the SVCB record's owner name MAY be the canonical name of a\r\n> \u00a0 \u00a0CNAME record, and the SvcDomainName MAY be the owner of a CNAME\r\n> \u00a0 \u00a0record.\u00a0 Clients and recursive resolvers MUST follow CNAMEs as\r\n> \u00a0 \u00a0normal.\r\n> \"\"\" \r\n> \r\n> I am not sure this is should be mentioned in the main part of the document and\r\n> maybe annex would be more appropriated. \r\n> ",
       "createdAt": "2020-03-10T01:04:12Z",
-      "updatedAt": "2020-03-10T01:04:12Z",
+      "updatedAt": "2020-04-10T18:56:24Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "bemasc",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Also, a reader requested clarification that the alias form does not redirect queries for any other QTYPEs (unlike CNAME).",
+          "createdAt": "2020-04-10T18:56:24Z",
+          "updatedAt": "2020-04-10T18:56:24Z"
+        }
+      ]
     },
     {
       "number": 124,
@@ -1956,11 +1964,13 @@
       "state": "OPEN",
       "author": "bemasc",
       "authorAssociation": "COLLABORATOR",
-      "assignees": [],
+      "assignees": [
+        "bemasc"
+      ],
       "labels": [],
       "body": "This example currently fuses two different zone files.  We can make it clearer that they are separate by adding a comment line above each RR.\r\n\r\n> \"\"\"\r\n> \u00a0As an example:\r\n> \r\n> \u00a0 \u00a0_8443._foo.api.example.com. 7200 IN SVCB 0 svc4.example.net.\r\n> \u00a0 \u00a0svc4..example.net. \u00a07200 \u00a0IN SVCB 3 ( svc4.example.net. alpn=\"bar\"\r\n> \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 port=\"8004\" esniconfig=\"...\" )\r\n> \"\"\"\r\n> \r\n> While many examples are useful for the understanding, they often provide the\r\n> impression RRsets are in the same zone file. I am wondering if that would not\r\n> be clarifying to show and mention zone files are different. Note this is just a\r\n> feed back and your ar efree to ignore it. ",
       "createdAt": "2020-03-10T01:09:54Z",
-      "updatedAt": "2020-03-10T01:09:54Z",
+      "updatedAt": "2020-04-07T02:11:53Z",
       "closedAt": null,
       "comments": []
     },
@@ -1972,11 +1982,13 @@
       "state": "OPEN",
       "author": "bemasc",
       "authorAssociation": "COLLABORATOR",
-      "assignees": [],
+      "assignees": [
+        "bemasc"
+      ],
       "labels": [],
       "body": "We've gotten multiple comments asking why AliasForm and ServiceForm aren't separate RR types.  From a recursive resolver's perspective, this would simplify the processing logic.  However, it would also result in double the QPS for everyone, since clients would have to fire off simultaneous queries for _both_ Qtypes.\r\n\r\n> It seems strange to me to have a single RRset type associated to different\r\n> functionalities, i.e. Alias and Service. I suspect that it is more convenient\r\n> to have the same RRtype while requesting among different administrative\r\n> domains, but I would be happy to know the rationals for this design. I have the\r\n> impression that alias form is used to indicates the next RRtype (in our case,\r\n> SVCB) while service form indicates a terminal request. \u00a0 \u00a0 ",
       "createdAt": "2020-03-10T01:10:34Z",
-      "updatedAt": "2020-03-10T01:14:47Z",
+      "updatedAt": "2020-04-07T01:54:54Z",
       "closedAt": null,
       "comments": [
         {
@@ -1992,6 +2004,37 @@
           "body": "Actually, I think it's worse than double.  A client, not knowing whether its recursive will perform special-case handling of these queries, has to issue both queries immediately.  A recursive, upon seeing a ServiceForm query, would itself have to issue both ServiceForm and AliasForm queries, both at this point in the chain and subsequently at every point down the chain.  So it somewhat more than doubles the load of the whole design, and the recursive behavior is possibly even more complex.",
           "createdAt": "2020-03-10T01:14:47Z",
           "updatedAt": "2020-03-10T01:14:47Z"
+        }
+      ]
+    },
+    {
+      "number": 130,
+      "id": "MDU6SXNzdWU1OTU3Mzk2OTI=",
+      "title": "Unrecognized keys in presentation format",
+      "url": "https://github.com/MikeBishop/dns-alt-svc/issues/130",
+      "state": "CLOSED",
+      "author": "DesWurstes",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "> Unrecognized keys are represented in presentation format as\r\n   \"keyNNNNN\" where NNNNN is the numeric value of the key type without\r\n   leading zeros.  In presentation format, values of unrecognized keys\r\n   SHALL be represented in wire format, using decimal escape codes (e.g.\r\n   \\255) when necessary.\r\n\r\nIsn't this self-contradictory?",
+      "createdAt": "2020-04-07T09:50:17Z",
+      "updatedAt": "2020-04-07T17:07:28Z",
+      "closedAt": "2020-04-07T17:07:15Z",
+      "comments": [
+        {
+          "author": "bemasc",
+          "authorAssociation": "COLLABORATOR",
+          "body": "The intent is that, if you encountered (e.g.) the \"alpn\" key but didn't have support for it, you would present it as\r\n\r\n    key1=\\008http/1.1\r\n\r\nThe text is attempting to distinguish between \"unrecognized keys\" and \"value of unrecognized keys\".  If that's not clear, we can change the text -- suggestions welcome.",
+          "createdAt": "2020-04-07T12:28:57Z",
+          "updatedAt": "2020-04-07T12:28:57Z"
+        },
+        {
+          "author": "DesWurstes",
+          "authorAssociation": "NONE",
+          "body": "Thanks! Maybe it needs distinction between numerical values of keys and their corresponding values.",
+          "createdAt": "2020-04-07T12:36:09Z",
+          "updatedAt": "2020-04-07T17:07:28Z"
         }
       ]
     }
@@ -9363,6 +9406,25 @@
       "body": "Fixes #125 ",
       "createdAt": "2020-04-07T01:54:35Z",
       "updatedAt": "2020-04-07T01:54:35Z",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 129,
+      "id": "MDExOlB1bGxSZXF1ZXN0Mzk5OTk2ODQ0",
+      "title": "Improve non-HTTP example text",
+      "url": "https://github.com/MikeBishop/dns-alt-svc/pull/129",
+      "state": "OPEN",
+      "author": "bemasc",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Fixes #124",
+      "createdAt": "2020-04-07T02:11:43Z",
+      "updatedAt": "2020-04-07T02:11:44Z",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
