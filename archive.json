@@ -1,6 +1,6 @@
 {
   "magic": "B8n2c@e8kvfx",
-  "timestamp": "2020-04-13T18:26:46.197803+00:00",
+  "timestamp": "2020-04-14T03:26:16.572276+00:00",
   "repo": "MikeBishop/dns-alt-svc",
   "labels": [
     {
@@ -1307,9 +1307,17 @@
       "labels": [],
       "body": "We changed the ESNI configuration from a single ESNIConfig to a list of ESNIConfigs in https://github.com/tlswg/draft-ietf-tls-esni/pull/200. HTTPSSVC/SVCB needs to be updated to match.",
       "createdAt": "2019-12-06T19:49:51Z",
-      "updatedAt": "2019-12-06T19:49:51Z",
+      "updatedAt": "2020-04-13T20:59:47Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "enygren",
+          "authorAssociation": "COLLABORATOR",
+          "body": "See also #127 which may replace the need for this?",
+          "createdAt": "2020-04-13T20:59:47Z",
+          "updatedAt": "2020-04-13T20:59:47Z"
+        }
+      ]
     },
     {
       "number": 90,
@@ -1379,15 +1387,15 @@
       "id": "MDU6SXNzdWU1MzkyMTcwOTI=",
       "title": "Why allow multiple values for the same parameter at all?",
       "url": "https://github.com/MikeBishop/dns-alt-svc/issues/95",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "davidben",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "It seems the only parameters which allow this is ipv4hint and ipv6hint, which is not necessary because the value serialization supports multiple addresses (https://github.com/MikeBishop/dns-alt-svc/pull/94).\r\n\r\nWhy do we need this? I think we should only allow one value per parameter.\r\n\r\nThis means duplicate values can be rejected generically in the parser. Right now the spec says individual parameters silently ignore all but the first value. Silently ignoring things isn't great. Other protocols like Roughtime further require keys be sorted, which makes it easy for the parser to reject duplicates generically.\r\n\r\nThis also avoids questions when designing a new parameter as to whether to use multiple parameter values or to encode multiple structures in the value. We should have one way to do things, so let's use the latter.",
       "createdAt": "2019-12-17T17:45:58Z",
-      "updatedAt": "2020-02-03T17:26:58Z",
-      "closedAt": null,
+      "updatedAt": "2020-04-13T20:58:58Z",
+      "closedAt": "2020-04-13T20:58:58Z",
       "comments": [
         {
           "author": "enygren",
@@ -1451,6 +1459,13 @@
           "body": "I think we pretty much have consensus on this encoding.\r\n\r\nSince #97 is a major semantic change, I'd like to get it finalized and merged before we make this syntax change.\r\n\r\nRegarding ports, the current plan is to have a single fixed port number for each SvcFieldValue, even if it has multiple transports.  This port number applies to all transports.  Endpoints with different port numbers will only be representable as separate RRs within the RRSet.  I'm not aware of a use case that would motivate putting multiple port numbers in one RR.",
           "createdAt": "2020-02-03T17:26:57Z",
           "updatedAt": "2020-02-03T17:26:57Z"
+        },
+        {
+          "author": "enygren",
+          "authorAssociation": "COLLABORATOR",
+          "body": "This has been incorporated.",
+          "createdAt": "2020-04-13T20:58:58Z",
+          "updatedAt": "2020-04-13T20:58:58Z"
         }
       ]
     },
@@ -1624,7 +1639,7 @@
       "id": "MDU6SXNzdWU1NTAyNDU2MzQ=",
       "title": "Include Alt-Used example",
       "url": "https://github.com/MikeBishop/dns-alt-svc/issues/101",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "enygren",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -1633,9 +1648,17 @@
       "labels": [],
       "body": "It would be good to include an example for Alt-Used (or mention it in a previous example).\r\n\r\nThe {client-behavior} reference is also broken.",
       "createdAt": "2020-01-15T15:10:24Z",
-      "updatedAt": "2020-01-15T17:13:15Z",
-      "closedAt": null,
-      "comments": []
+      "updatedAt": "2020-04-13T20:58:14Z",
+      "closedAt": "2020-04-13T20:58:14Z",
+      "comments": [
+        {
+          "author": "enygren",
+          "authorAssociation": "COLLABORATOR",
+          "body": "WONTFIX (alternative is #107)",
+          "createdAt": "2020-04-13T20:58:14Z",
+          "updatedAt": "2020-04-13T20:58:14Z"
+        }
+      ]
     },
     {
       "number": 103,
@@ -1905,15 +1928,15 @@
       "id": "MDU6SXNzdWU1NzgyMzk5NzA=",
       "title": "Invalid HTTPSSVC example",
       "url": "https://github.com/MikeBishop/dns-alt-svc/issues/121",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "marka63",
       "authorAssociation": "NONE",
       "assignees": [],
       "labels": [],
       "body": "www.example.com.  7200  IN HTTPSSVC svc.example.net.\r\n\r\nis not a valid record.",
       "createdAt": "2020-03-09T23:06:38Z",
-      "updatedAt": "2020-03-09T23:06:38Z",
-      "closedAt": null,
+      "updatedAt": "2020-04-13T20:48:01Z",
+      "closedAt": "2020-04-13T20:48:01Z",
       "comments": []
     },
     {
@@ -1961,7 +1984,7 @@
       "id": "MDU6SXNzdWU1NzgyNzQ4NTE=",
       "title": "Clarify non-HTTPS example",
       "url": "https://github.com/MikeBishop/dns-alt-svc/issues/124",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "bemasc",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -1970,16 +1993,24 @@
       "labels": [],
       "body": "This example currently fuses two different zone files.  We can make it clearer that they are separate by adding a comment line above each RR.\r\n\r\n> \"\"\"\r\n> \u00a0As an example:\r\n> \r\n> \u00a0 \u00a0_8443._foo.api.example.com. 7200 IN SVCB 0 svc4.example.net.\r\n> \u00a0 \u00a0svc4..example.net. \u00a07200 \u00a0IN SVCB 3 ( svc4.example.net. alpn=\"bar\"\r\n> \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 port=\"8004\" esniconfig=\"...\" )\r\n> \"\"\"\r\n> \r\n> While many examples are useful for the understanding, they often provide the\r\n> impression RRsets are in the same zone file. I am wondering if that would not\r\n> be clarifying to show and mention zone files are different. Note this is just a\r\n> feed back and your ar efree to ignore it. ",
       "createdAt": "2020-03-10T01:09:54Z",
-      "updatedAt": "2020-04-07T02:11:53Z",
-      "closedAt": null,
-      "comments": []
+      "updatedAt": "2020-04-13T20:56:50Z",
+      "closedAt": "2020-04-13T20:56:50Z",
+      "comments": [
+        {
+          "author": "enygren",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Merged PR #129 ",
+          "createdAt": "2020-04-13T20:56:50Z",
+          "updatedAt": "2020-04-13T20:56:50Z"
+        }
+      ]
     },
     {
       "number": 125,
       "id": "MDU6SXNzdWU1NzgyNzUwMTk=",
       "title": "Justify keeping AliasForm and ServiceForm in one RR type, or split them into two",
       "url": "https://github.com/MikeBishop/dns-alt-svc/issues/125",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "bemasc",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -1988,8 +2019,8 @@
       "labels": [],
       "body": "We've gotten multiple comments asking why AliasForm and ServiceForm aren't separate RR types.  From a recursive resolver's perspective, this would simplify the processing logic.  However, it would also result in double the QPS for everyone, since clients would have to fire off simultaneous queries for _both_ Qtypes.\r\n\r\n> It seems strange to me to have a single RRset type associated to different\r\n> functionalities, i.e. Alias and Service. I suspect that it is more convenient\r\n> to have the same RRtype while requesting among different administrative\r\n> domains, but I would be happy to know the rationals for this design. I have the\r\n> impression that alias form is used to indicates the next RRtype (in our case,\r\n> SVCB) while service form indicates a terminal request. \u00a0 \u00a0 ",
       "createdAt": "2020-03-10T01:10:34Z",
-      "updatedAt": "2020-04-07T01:54:54Z",
-      "closedAt": null,
+      "updatedAt": "2020-04-13T20:56:32Z",
+      "closedAt": "2020-04-13T20:56:31Z",
       "comments": [
         {
           "author": "enygren",
@@ -2004,6 +2035,13 @@
           "body": "Actually, I think it's worse than double.  A client, not knowing whether its recursive will perform special-case handling of these queries, has to issue both queries immediately.  A recursive, upon seeing a ServiceForm query, would itself have to issue both ServiceForm and AliasForm queries, both at this point in the chain and subsequently at every point down the chain.  So it somewhat more than doubles the load of the whole design, and the recursive behavior is possibly even more complex.",
           "createdAt": "2020-03-10T01:14:47Z",
           "updatedAt": "2020-03-10T01:14:47Z"
+        },
+        {
+          "author": "enygren",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Added a justification in PR #128 ",
+          "createdAt": "2020-04-13T20:56:31Z",
+          "updatedAt": "2020-04-13T20:56:31Z"
         }
       ]
     },
@@ -7996,15 +8034,15 @@
       "id": "MDExOlB1bGxSZXF1ZXN0MzYzMTkxMzUy",
       "title": "Alt-Used example",
       "url": "https://github.com/MikeBishop/dns-alt-svc/pull/102",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "enygren",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "* Add an example for Alt-Used per issue #101  (although exact details may need to change depending on other PRs around alpn vs transport).\r\n* Fix reference to client-behavior",
       "createdAt": "2020-01-15T15:19:56Z",
-      "updatedAt": "2020-01-24T20:01:52Z",
-      "closedAt": null,
+      "updatedAt": "2020-04-13T20:55:28Z",
+      "closedAt": "2020-04-13T20:55:28Z",
       "mergedAt": null,
       "mergedBy": null,
       "comments": [
@@ -8028,6 +8066,13 @@
           "body": "Per #107, it looks like we're going to try a different direction for this. @enygren, would you like to close this PR?",
           "createdAt": "2020-01-24T20:01:52Z",
           "updatedAt": "2020-01-24T20:01:52Z"
+        },
+        {
+          "author": "enygren",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Abandoning this for now, pending discussion of issue 107.",
+          "createdAt": "2020-04-13T20:55:28Z",
+          "updatedAt": "2020-04-13T20:55:28Z"
         }
       ],
       "reviews": [
@@ -9246,7 +9291,7 @@
       "labels": [],
       "body": "The previous phrasing was redundant.",
       "createdAt": "2020-03-09T21:24:43Z",
-      "updatedAt": "2020-03-10T02:04:37Z",
+      "updatedAt": "2020-04-13T20:54:25Z",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
@@ -9299,19 +9344,33 @@
       "id": "MDExOlB1bGxSZXF1ZXN0Mzg1ODkyNzU5",
       "title": "Add missing SvcFieldPriority",
       "url": "https://github.com/MikeBishop/dns-alt-svc/pull/126",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "bemasc",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Fixes #121",
       "createdAt": "2020-03-10T01:33:49Z",
-      "updatedAt": "2020-03-10T01:33:54Z",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
+      "updatedAt": "2020-04-13T20:48:02Z",
+      "closedAt": "2020-04-13T20:48:01Z",
+      "mergedAt": "2020-04-13T20:48:01Z",
+      "mergedBy": "enygren",
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3MzkyNDI3OTEw",
+          "commit": {
+            "abbreviatedOid": "077e8b8"
+          },
+          "author": "enygren",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2020-04-13T20:47:56Z",
+          "updatedAt": "2020-04-13T20:47:56Z",
+          "comments": []
+        }
+      ]
     },
     {
       "number": 127,
@@ -9325,7 +9384,7 @@
       "labels": [],
       "body": "",
       "createdAt": "2020-03-11T14:28:53Z",
-      "updatedAt": "2020-04-07T01:43:47Z",
+      "updatedAt": "2020-04-14T03:25:27Z",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
@@ -9347,7 +9406,7 @@
               "originalPosition": 75,
               "body": "ECHO uses `ECHOConfig` to carry this data -- should we do the same here?",
               "createdAt": "2020-03-12T13:21:12Z",
-              "updatedAt": "2020-03-12T19:44:03Z"
+              "updatedAt": "2020-04-14T03:25:27Z"
             }
           ]
         },
@@ -9367,7 +9426,7 @@
               "originalPosition": 75,
               "body": "Given \"echo\" has other meetings, that's probably a good plan. \"echoconfig\" is a hair longer but a more unique string.",
               "createdAt": "2020-03-12T14:15:53Z",
-              "updatedAt": "2020-03-12T19:44:03Z"
+              "updatedAt": "2020-04-14T03:25:27Z"
             }
           ]
         },
@@ -9387,9 +9446,22 @@
               "originalPosition": 75,
               "body": "Done",
               "createdAt": "2020-03-12T19:44:44Z",
-              "updatedAt": "2020-03-12T19:44:44Z"
+              "updatedAt": "2020-04-14T03:25:27Z"
             }
           ]
+        },
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3MzkyNDI3NjY2",
+          "commit": {
+            "abbreviatedOid": "c861788"
+          },
+          "author": "enygren",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "Did we intend to remove \"## Differences from the proposed ESNI record \"?\r\n\r\nWould we be better off with calling this \"tlsecho\" instead of \"echoconfig\" ?\r\n(I think either is fine.)",
+          "createdAt": "2020-04-13T20:47:34Z",
+          "updatedAt": "2020-04-13T20:47:34Z",
+          "comments": []
         }
       ]
     },
@@ -9398,38 +9470,120 @@
       "id": "MDExOlB1bGxSZXF1ZXN0Mzk5OTkyOTky",
       "title": "Document why SVCB is a single type",
       "url": "https://github.com/MikeBishop/dns-alt-svc/pull/128",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "bemasc",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Fixes #125 ",
       "createdAt": "2020-04-07T01:54:35Z",
-      "updatedAt": "2020-04-07T01:54:35Z",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
+      "updatedAt": "2020-04-13T20:35:12Z",
+      "closedAt": "2020-04-13T20:35:12Z",
+      "mergedAt": "2020-04-13T20:35:12Z",
+      "mergedBy": "enygren",
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3MzkyNDE5NzUx",
+          "commit": {
+            "abbreviatedOid": "311a4c3"
+          },
+          "author": "enygren",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2020-04-13T20:35:06Z",
+          "updatedAt": "2020-04-13T20:35:06Z",
+          "comments": []
+        }
+      ]
     },
     {
       "number": 129,
       "id": "MDExOlB1bGxSZXF1ZXN0Mzk5OTk2ODQ0",
       "title": "Improve non-HTTP example text",
       "url": "https://github.com/MikeBishop/dns-alt-svc/pull/129",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "bemasc",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Fixes #124",
       "createdAt": "2020-04-07T02:11:43Z",
-      "updatedAt": "2020-04-07T02:11:44Z",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
+      "updatedAt": "2020-04-14T03:25:25Z",
+      "closedAt": "2020-04-14T03:25:25Z",
+      "mergedAt": "2020-04-14T03:25:25Z",
+      "mergedBy": "enygren",
+      "comments": [
+        {
+          "author": "bemasc",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Done",
+          "createdAt": "2020-04-13T22:23:43Z",
+          "updatedAt": "2020-04-13T22:23:43Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3MzkyNDE4OTg4",
+          "commit": {
+            "abbreviatedOid": "5b9f64d"
+          },
+          "author": "enygren",
+          "authorAssociation": "COLLABORATOR",
+          "state": "CHANGES_REQUESTED",
+          "body": "Can we remove the two words \"like\" before the examples?  (editorial nit)\r\nOtherwise seems fine to merge.",
+          "createdAt": "2020-04-13T20:33:52Z",
+          "updatedAt": "2020-04-13T20:33:52Z",
+          "comments": []
+        },
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3MzkyNTc4NzM3",
+          "commit": {
+            "abbreviatedOid": "16ab7a0"
+          },
+          "author": "enygren",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2020-04-14T03:25:12Z",
+          "updatedAt": "2020-04-14T03:25:12Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 131,
+      "id": "MDExOlB1bGxSZXF1ZXN0NDAyNzc0NTQx",
+      "title": "Improve description of IP hint requirements",
+      "url": "https://github.com/MikeBishop/dns-alt-svc/pull/131",
+      "state": "MERGED",
+      "author": "bemasc",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2020-04-13T18:28:44Z",
+      "updatedAt": "2020-04-13T20:31:39Z",
+      "closedAt": "2020-04-13T20:31:39Z",
+      "mergedAt": "2020-04-13T20:31:39Z",
+      "mergedBy": "enygren",
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3MzkyNDE3NTA5",
+          "commit": {
+            "abbreviatedOid": "a448658"
+          },
+          "author": "enygren",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2020-04-13T20:31:34Z",
+          "updatedAt": "2020-04-13T20:31:34Z",
+          "comments": []
+        }
+      ]
     }
   ]
 }
