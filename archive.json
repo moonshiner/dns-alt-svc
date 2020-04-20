@@ -1,6 +1,6 @@
 {
   "magic": "B8n2c@e8kvfx",
-  "timestamp": "2020-04-14T03:26:16.572276+00:00",
+  "timestamp": "2020-04-20T21:31:53.772660+00:00",
   "repo": "MikeBishop/dns-alt-svc",
   "labels": [
     {
@@ -2073,6 +2073,271 @@
           "body": "Thanks! Maybe it needs distinction between numerical values of keys and their corresponding values.",
           "createdAt": "2020-04-07T12:36:09Z",
           "updatedAt": "2020-04-07T17:07:28Z"
+        }
+      ]
+    },
+    {
+      "number": 132,
+      "id": "MDU6SXNzdWU1OTk2MTQ0OTc=",
+      "title": "Clarify how ALPN interacts with ECHO",
+      "url": "https://github.com/MikeBishop/dns-alt-svc/issues/132",
+      "state": "OPEN",
+      "author": "enygren",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "With Encrypted Client Hello there is an ALPN on both the outer (exposed) and the inner (encrypted).  We should clarify how this interacts with the alpn= attribute.",
+      "createdAt": "2020-04-14T14:25:46Z",
+      "updatedAt": "2020-04-15T03:09:26Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "enygren",
+          "authorAssociation": "COLLABORATOR",
+          "body": "See related on ESNI/ECHO:  https://github.com/tlswg/draft-ietf-tls-esni/issues/216 ",
+          "createdAt": "2020-04-14T14:30:11Z",
+          "updatedAt": "2020-04-14T14:30:11Z"
+        },
+        {
+          "author": "MikeBishop",
+          "authorAssociation": "OWNER",
+          "body": "There are a couple of concepts implicated here:\r\n\r\n- What does the server advertise that it speaks?  That's the content of the SVCB record.  Note that this cannot be private information, since anyone could retrieve the DNS record.\r\n- What does the client want to admit that it speaks / is planning to speak?  That's the content of the public ClientHello.\r\n- What does the client actually want to speak?  That's the content of the encrypted ClientHello.\r\n\r\nIn most situations I can think of, it's the client that wants to conceal that it's using a particular protocol (e.g. a VPN tunnel), and so client policy would dictate when the public/private ALPN tokens differ.  Put something innocuous in the public ALPN extension, or even omit it.\r\n\r\nIf the server wants to conceal that it speaks a particular protocol, DNS is not the place to publish that information.  There might be value in a mechanism for the server to advertise \"secret\" ALPN tokens that it supports for the client's future use in encrypted ClientHellos, but I don't think SVCB is the venue for that.  It would need to be something it can provide only to already-authenticated clients -- perhaps something it could attach to an NST?  But regardless, out of this document's scope.",
+          "createdAt": "2020-04-14T14:37:14Z",
+          "updatedAt": "2020-04-14T14:39:33Z"
+        },
+        {
+          "author": "sftcd",
+          "authorAssociation": "NONE",
+          "body": "\nHiya,\n\nOn 14/04/2020 15:37, Mike Bishop wrote:\n> There are a couple of concepts implicated here:\n> \n> - What does the server advertise that it speaks?  That's the content of the SVCB record.  Note that this cannot be private information, since anyone could retrieve the DNS record.\n> - What does the client want to admit that it speaks / is planning to speak?  That's the content of the public ClientHello.\n> - What does the client actually want to speak?  That's the content of the encrypted ClientHello.\n> \n\nThere's also an additional part - a server might be telling\nclients how to better not stick out or how to get interop\nif some other common choice might cause failures. I doubt\nwe can know for sure how to treat those for now.\n\n> In most situations I can think of, it's the client that wants to conceal that it's using a particular protocol (e.g. a VPN tunnel), and so client policy would dictate when the public/private ALPN tokens differ.  Put something innocuous in the public ALPN extension, or even omit it.\n> \n\nI doubt many clients will have such a rich policy. I'd\nexpect that client implementers will just pick something.\n\nI think the minimum we need to do is to say that\nHTTPSSVC.alpn is to be used in inner CH if ECHO is being\nused. It might also make sense to define a public_alpn\nfield either in ECHOConfig or HTTPSSVC and to then say\nthat if only one of those is present, then the same\nvalue SHOULD be used in inner and outer and if both are\npresent, then clients SHOULD follow what the server\nsaid. (And if we do do that, I'd argue to have the\npublic_alpn in the same structure as the public_name,\nwhether that's ECHOConfig or HTTPSSVC.)\n\n> If the server wants to conceal that it speaks a particular protocol, DNS is not the place to publish that information.\n\nWell... that same logic would call ESNI/ECHO into question\nentirely wouldn't it? So I don't find the argument below\nconvincing.\n\nS\n\n>  There might be value in a mechanism for the server to advertise \"secret\" ALPN tokens that it supports for the client's future use in encrypted ClientHellos, but I don't think SVCB is the venue for that.  It would need to be something it can provide only to already-authenticated clients -- perhaps something it could attack to an NST?\n> \n\n\n",
+          "createdAt": "2020-04-14T15:02:40Z",
+          "updatedAt": "2020-04-14T15:02:40Z"
+        },
+        {
+          "author": "MikeBishop",
+          "authorAssociation": "OWNER",
+          "body": "> > If the server wants to conceal that it speaks a particular protocol, DNS is not the place to publish that information.\r\n>\r\n> Well... that same logic would call ESNI/ECHO into question entirely wouldn't it? So I don't find the argument below convincing.\r\n\r\nNo, it wouldn't; the ESNI/ECHO keys are inherently public information.  They can (and should) be widely disseminated.  The fact that a server supports ECHO is similarly not private.  If you're assuming that the server's set of supported protocols *is* private information, then you need a private way to distribute that information.  ECHO, of course, only permits the transfer of private information from client to server.\r\n\r\nThat said, I don't object to ECHOConfig suggesting innocuous settings for other properties for use on the public side if the TLS WG wants to do that.  (@davidben makes a good point that the public name is less for innocuous value and more for delegating the authority to change config, though.)  I think that's orthogonal to SVCB telling you what the service supports and how to access it.",
+          "createdAt": "2020-04-14T18:46:59Z",
+          "updatedAt": "2020-04-14T18:47:09Z"
+        },
+        {
+          "author": "davidben",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "I don't think discussion about which ALPN to use in TLS makes sense HTTPSSVC, except in so far as clarifying that the thing HTTPSSVC calls ALPN gets little to no on influence the TLS ALPN decision. (I.e. we must revert the Alt-Svc original sin.)\r\n\r\nBeyond that, for ECHO's semantics, the answer is clear: the inner ClientHello is the actual ClientHello. The client should put in the ALPN parameters it actually wants to negotiate. The outer ClientHello is to authenticate a key mismatch signal, so negotiated parameters only matter up to authenticating that signal. Thus, ECHO has opinions on the outer name because it selects the authenticating certificate. The outer ALPN doesn't seem very important.\r\n\r\nEither way, whether you got your ECHO config from HTTPSSVC or some hypothetical other channel, those same considerations hold, so any decisions here belong in ECHO, not HTTPSSVC.",
+          "createdAt": "2020-04-14T20:36:44Z",
+          "updatedAt": "2020-04-14T20:36:44Z"
+        },
+        {
+          "author": "bemasc",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Since it's been mentioned a few times, I want to clarify that the SVCB \"alpn=\" field does _not_ tell the client what to put in its ALPN field, at least not directly.  It tells the client about what ALPNs the _server_ supports, so that the client can choose transports that will work.  As the text (currently) notes\r\n\r\n> Clients SHOULD also include any other values that they support and could negotiate on that connection with equivalent or better security properties. For example, if the ALPN set only contains \"http/1.1\", the client could include \"http/1.1\" and \"h2\" in the ProtocolNameList.\r\n\r\nI agree that this text is talking about the inner ClientHello, and we need to make that clear in the drafts.",
+          "createdAt": "2020-04-15T03:09:25Z",
+          "updatedAt": "2020-04-15T03:09:25Z"
+        }
+      ]
+    },
+    {
+      "number": 133,
+      "id": "MDU6SXNzdWU1OTk2MTQ5NDE=",
+      "title": "Clarify Client DNS failure behaviour",
+      "url": "https://github.com/MikeBishop/dns-alt-svc/issues/133",
+      "state": "OPEN",
+      "author": "fl1ger",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "Moin!\r\n\r\nReading the draft again in preparation for the dnsop interim I was confused by the Client behavior/Handling resolution failures section.\r\n\r\nThe client behaviour says that A/AAAA and SVCB/HTTPSVC should be run in parallel and the failure case says that if SVCB fails the client should not use A/AAAA. It think what we want here is that if the initial parallel query fails use A/AAAA as a lot of DNS devices fail in various forms when queried something not A/AAAA and the ENT or NXDomain handling also is questionable for a lot of DNS servers. \r\n\r\nIf the initial SVCB lookup give you something to follow you should fail on the final resolution, but not on the initial lookup as it will cause to much collateral damage.\r\n\r\nSo long\r\n-Ralf\r\n",
+      "createdAt": "2020-04-14T14:26:19Z",
+      "updatedAt": "2020-04-20T16:24:46Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "bemasc",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Here's the full text\r\n>If an SVCB query results in a SERVFAIL error, transport error, or timeout, and DNS exchanges between the client and the recursive resolver are cryptographically protected (e.g. using TLS [RFC7858] or HTTPS [RFC8484]), the client MUST NOT fall back to non-SVCB connection establishment. This ensures that an active attacker cannot mount a downgrade attack by denying the user access to the SVCB information.\r\n\r\n> A SERVFAIL error can occur if the domain is DNSSEC-signed, the recursive resolver is DNSSEC-validating, and the attacker is between the recursive resolver and the authoritative DNS server. A transport error or timeout can occur if an active attacker between the client and the recursive resolver is selectively dropping SVCB queries or responses, based on their size or other observable patterns.\r\n\r\n> Similarly, if the client enforces DNSSEC validation on A/AAAA responses, it MUST NOT fall back to non-SVCB connection establishment if the SVCB response fails to validate.\r\n\r\nNote that these requirements are all restricted to DoT, DoH, or validating-stub.  I think this should exclude the buggy devices you're describing.  Also, I don't think we have a choice.  As the text notes, a less strict policy would open a downgrade attack on ECHO.",
+          "createdAt": "2020-04-14T14:42:23Z",
+          "updatedAt": "2020-04-14T14:42:23Z"
+        },
+        {
+          "author": "fl1ger",
+          "authorAssociation": "NONE",
+          "body": "Ben when the authority SERVFAIL/NXDOMAIN/Timeouts for the SVCB question of the resolver the resolver has and will give back SERVFAIL or NXDomain. It does not matter if the stub connects over DoH, DoT or  regular DNS. What will the client do in that case?\r\n\r\n",
+          "createdAt": "2020-04-14T14:48:26Z",
+          "updatedAt": "2020-04-14T14:48:26Z"
+        },
+        {
+          "author": "bemasc",
+          "authorAssociation": "COLLABORATOR",
+          "body": "NXDOMAIN is fine, but SERVFAIL or timeout->SERVFAIL currently cannot be tolerated, and the client will not be able to access the domain until the buggy authoritative is fixed.  Suggestions welcome!",
+          "createdAt": "2020-04-14T16:46:38Z",
+          "updatedAt": "2020-04-14T16:46:38Z"
+        },
+        {
+          "author": "fl1ger",
+          "authorAssociation": "NONE",
+          "body": "NXDOMAIN is not fine. NXDOMAIN for example.com SVCB means that example.com does not exists. The correct answer is Noerror/NOData. I have seen domains not responding properly to new qtypes (e.g AAAA/NS) more often than I wished. If we want to go down that way we at least have to put a warning sign in the text as sites will break if we see SERVFAIL or NXDOMAIN of SVCB request as a downgrade attack.",
+          "createdAt": "2020-04-16T13:27:47Z",
+          "updatedAt": "2020-04-16T13:27:47Z"
+        },
+        {
+          "author": "ericorth",
+          "authorAssociation": "NONE",
+          "body": "I believe the primary security concern here is around a network attacker blocking some of the messages to try to prevent just the HTTPSSVC result and trick A/AAAA into being used without ESNI.  Thus clients need to be careful with anything that could have been the result of such an attack.\r\n\r\nNXDOMAIN, should in theory be sufficient for the client to trust that there really is not an HTTPSSVC result, whether because the domain doesn't exist or because an existing domain doesn't have HTTPSSVC and something is responding improperly.  Either way, it should be safe for the client to fallback to A/AAAA on receiving NXDOMAIN (or NOERROR/NODATA).  Compare to SERVFAIL which could signify that a resolver failed to get a result from upstream, which could be the result of a network attacker.\r\n\r\nOr is your concern that it may be too common for incorrectly-implemented resolvers to return NXDOMAIN in cases where an attacker is blocking things?",
+          "createdAt": "2020-04-16T15:09:23Z",
+          "updatedAt": "2020-04-16T15:09:23Z"
+        },
+        {
+          "author": "bemasc",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Yeah, @ericorth explained it better.  Returning NXDOMAIN is a bug, but the resulting user-visible behavior is fine.  It's SERVFAIL or timeout that would really be a problem.\r\n\r\nIf SERVFAIL turns out to be a real issue, implementors may be forced to back off slightly, e.g. by showing a click-through warning.  I tend to think that those behaviors don't need to be standardized, but feel free to suggest text.",
+          "createdAt": "2020-04-16T18:32:27Z",
+          "updatedAt": "2020-04-16T18:32:27Z"
+        },
+        {
+          "author": "enygren",
+          "authorAssociation": "COLLABORATOR",
+          "body": "It would be good to do an experiment as to how many of the Alexa/Umbrella top-N names return NXDOMAIN rather NODATA for a SVCB query (but return a valid A or AAAA or CNAME response).  Even if a bug, if too common it could impact deployability.  Some authorities certainly had this bug in the early days of AAAA existence (and some may still do so).",
+          "createdAt": "2020-04-16T19:06:56Z",
+          "updatedAt": "2020-04-16T19:06:56Z"
+        },
+        {
+          "author": "davidben",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "@dmcardle I think this is one of the questions your experiment was looking to answer.",
+          "createdAt": "2020-04-16T23:34:01Z",
+          "updatedAt": "2020-04-16T23:34:01Z"
+        },
+        {
+          "author": "marka63",
+          "authorAssociation": "NONE",
+          "body": "It doesn't help when IESG members think that blocking DNS types is good security practice.\r\n\r\nhttps://mailarchive.ietf.org/arch/msg/dnsop/BQwfAlTgqQf0X7HCFWE0ashFApU/\r\n\r\nThe following tool is already setup for bulk testing of known and unknown types (genreport -t).\r\n\r\nhttps://gitlab.isc.org/isc-projects/DNS-Compliance-Testing",
+          "createdAt": "2020-04-17T01:13:53Z",
+          "updatedAt": "2020-04-17T01:13:53Z"
+        },
+        {
+          "author": "marka63",
+          "authorAssociation": "NONE",
+          "body": "Note Alexa/Umbrella lists have a higher proportion of F5 servers some of which are misconfigured.\r\n",
+          "createdAt": "2020-04-17T01:16:05Z",
+          "updatedAt": "2020-04-17T01:16:05Z"
+        },
+        {
+          "author": "marka63",
+          "authorAssociation": "NONE",
+          "body": "And Google's servers return NOTIMP for unknown types.  Microsoft's outlook servers also return NOTIMP.  Unknown types outside of the reserver meta range are supposed to be treated as opaque blobs which RFC compliant server should return NOERROR or NXDOMAIN for depending upon whether the name exists or not.",
+          "createdAt": "2020-04-17T08:31:10Z",
+          "updatedAt": "2020-04-17T08:31:10Z"
+        },
+        {
+          "author": "dmcardle",
+          "authorAssociation": "NONE",
+          "body": "@enygren We're currently working on a [Chrome experiment](https://docs.google.com/document/u/1/d/14eCqVyT_3MSj7ydqNFl1Yl0yg1fs6g24qmYUUdi5V-k/edit) to measure how an arbitrary new record type propagates through the DNS ecosystem.",
+          "createdAt": "2020-04-17T14:57:48Z",
+          "updatedAt": "2020-04-17T14:57:48Z"
+        },
+        {
+          "author": "fl1ger",
+          "authorAssociation": "NONE",
+          "body": "@dmcardle this experiment only checks the behaviour of recursive resolvers. \r\n\r\nMy concern is that authorities (of which we have a lot more) will answer incorrect and the poor resolver has to give back the client that incorrect answer. This will happen and as we know it we should maybe describe that if we want to be strict about that. What about:\r\n...\r\nThis ensures that an active attacker\r\n   cannot mount a downgrade attack by denying the user access to the\r\n   SVCB information.\r\n\"SERVFAIL answers potentially also can happen when the authoritative name server for a domain is broken or non standards compliant, e.g if it sends SERVFAIL, NXDOMAIN or NOTIMP back to the resolver instead of the correct empty response for an RRType it does not know or has no data for.\"\r\n\r\n",
+          "createdAt": "2020-04-19T08:03:36Z",
+          "updatedAt": "2020-04-19T08:03:36Z"
+        },
+        {
+          "author": "moonshiner",
+          "authorAssociation": "NONE",
+          "body": "Could the experiment not query the experiment-domain directly as part of the test?  ",
+          "createdAt": "2020-04-19T17:28:02Z",
+          "updatedAt": "2020-04-19T17:28:02Z"
+        },
+        {
+          "author": "bemasc",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@fl1ger Are you saying that the recursive will convert NXDOMAIN or NOTIMP to SERVFAIL?  I've never heard of that.",
+          "createdAt": "2020-04-19T18:29:11Z",
+          "updatedAt": "2020-04-19T18:29:11Z"
+        },
+        {
+          "author": "enygren",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I believe the concern is that authorities may return SERVFAIL or NXDOMAIN for SVCB (rather than NODATA NOERROR) for names with valid A/AAAA/CNAME records so treating this as a hard-fail rather than fallback will DoS these sites.\r\n\r\nOne approach would be to convert the \"MUST\" to a \"SHOULD\" with guidance that a downgrade attack may be possible between the recursive and authority, and that client authors may use the results of future research to determine when it is safe to enforce this behavior.",
+          "createdAt": "2020-04-19T20:20:54Z",
+          "updatedAt": "2020-04-19T20:20:54Z"
+        },
+        {
+          "author": "davidben",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "We may want to separate the error cases then. IIRC, the original feedback here was that an attacker between the client and recursive could try to recognize which packets contained SVCB vs A/AAAA (the responses are vastly different sizes) and drop one. Especially since they go on HTTP/3 streams, it's quite likely an attacker can cause problems here. This leg is, I think, mostly concerned with timeouts and transport errors.\r\n\r\n#104, however, generalized it to all kinds of errors. Hardening the error-handling is nice, but given the concerns around deployment risk, that was perhaps too large of a change.",
+          "createdAt": "2020-04-19T20:34:59Z",
+          "updatedAt": "2020-04-19T20:37:14Z"
+        },
+        {
+          "author": "marka63",
+          "authorAssociation": "NONE",
+          "body": "In reality there is one or two vendors holding the whole industry to ransom due to their negligence. \r\nLets not be held to ransom and actually say MUST NOT proceed to make a connection unless the SVCB returns a NOERROR response.  Vendors can fix this in under 24 hours as I have seen them do it that fast in the past multiple times.  Vendors can issue advisories to their clients that they should upgrade.\r\n\r\nRFC 1034 and RFC 1035 has the server returning SERVFAIL if it couldn't LOAD the master file (e.g. because it didn't implement a type present in the master file) and returning NOERROR or NXDOMAIN if the zone file loaded.\r\n\r\nRFC3597 further reinforced this by saying all type code other than the meta range (RFC2929) are to be treated as opaque blobs and providing a presentation format for unknown record types.\r\n\r\nWe also have draft-ietf-dnsop-no-response-issue-23 in the RFC editor queue pointing out the mis use of NOTIMP.\r\n\r\nGoogle have already indicated they they will fix their servers as a matter of urgency.  Google acknowledges that they correct rcodes are NOERROR or NXDOMAIN and not NOTIMP.  Microsoft have committed to fix their corporate authoritative servers as part of deploying TLSA support.   AFAIK the implementation in Windows is fine.",
+          "createdAt": "2020-04-19T21:33:34Z",
+          "updatedAt": "2020-04-19T21:33:34Z"
+        },
+        {
+          "author": "ericorth",
+          "authorAssociation": "NONE",
+          "body": "Clients are very risk averse when it comes to making changes that could break accessing internet sites that worked fine (from the user perspective) before the change.  Ignoring what would have been perfectly good A/AAAA results because an SVCB returned NXDOMAIN or NOTIMP would be a tough sell.  The case would have to be made either that it is vital for safe functioning of SVCB queries (as is the case with timeout and maybe SERVFAIL) or that it would not currently be a significant issue and nothing would break.\r\n\r\nEven with timeout/SERVFAIL, while we're optimistic it'll be acceptable to treat those as fatal, there's enough skepticism to have started the experiments dmcardle mentioned above.",
+          "createdAt": "2020-04-20T16:24:46Z",
+          "updatedAt": "2020-04-20T16:24:46Z"
+        }
+      ]
+    },
+    {
+      "number": 134,
+      "id": "MDU6SXNzdWU1OTk2MTYyMzU=",
+      "title": "Add warning about using non-default ports",
+      "url": "https://github.com/MikeBishop/dns-alt-svc/issues/134",
+      "state": "OPEN",
+      "author": "enygren",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Paul Vixie recommends we add a warning that operators should avoid using non-default ports for general Internet use.  Non-default ports may be firewalled in client networks, so may appear to work in testing but may not work for some clients/users.",
+      "createdAt": "2020-04-14T14:28:04Z",
+      "updatedAt": "2020-04-14T14:28:04Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 135,
+      "id": "MDU6SXNzdWU2MDM1NDMxNzY=",
+      "title": "Consider reordering examples",
+      "url": "https://github.com/MikeBishop/dns-alt-svc/issues/135",
+      "state": "OPEN",
+      "author": "bemasc",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Currently, the examples come before the formal definition of the RR type.  It might be sensible to move them after instead.",
+      "createdAt": "2020-04-20T21:20:50Z",
+      "updatedAt": "2020-04-20T21:20:50Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 136,
+      "id": "MDU6SXNzdWU2MDM1NDY3ODg=",
+      "title": "Clarify presentation format section",
+      "url": "https://github.com/MikeBishop/dns-alt-svc/issues/136",
+      "state": "OPEN",
+      "author": "bemasc",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "The wording about key=value syntax is confusing.  It could be clearer, e.g.\r\n>    The presentation format for SvcFieldValue is a whitespace-separated list of\r\n> \u00a0 \u00a0key=value pairs (e.g. \"key123=value1 keys456=value2\"). When the value, or\r\n> \u00a0 \u00a0both the value and the \"=\" are omitted, the value should be interpreted as\r\n> \u00a0 \u00a0being empty.",
+      "createdAt": "2020-04-20T21:27:21Z",
+      "updatedAt": "2020-04-20T21:28:17Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "bemasc",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Related clarification suggestion:\r\n\r\n> 6. In Section 2.2 it says (in reference to param field values):\r\n> \r\n> \u00a0 \u00a0o\u00a0 an octet string of the length defined by the previous field.\r\n> \r\n> It might be good to say here that the format of this octet string is defined\r\n> according to the corresponding SvcParamKey, and then reference section 6 for\r\n> ths currently defined keys. The same applies for section 2.1.1 for the\r\n> presentation format.",
+          "createdAt": "2020-04-20T21:28:16Z",
+          "updatedAt": "2020-04-20T21:28:16Z"
         }
       ]
     }
@@ -9584,6 +9849,25 @@
           "comments": []
         }
       ]
+    },
+    {
+      "number": 137,
+      "id": "MDExOlB1bGxSZXF1ZXN0NDA2MzEzODM5",
+      "title": "Fix textual error: SvcParam -> SvcFieldValue",
+      "url": "https://github.com/MikeBishop/dns-alt-svc/pull/137",
+      "state": "OPEN",
+      "author": "bemasc",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2020-04-20T21:31:31Z",
+      "updatedAt": "2020-04-20T21:31:32Z",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "comments": [],
+      "reviews": []
     }
   ]
 }
