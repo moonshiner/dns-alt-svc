@@ -290,7 +290,9 @@ the "=" are omitted, the presentation value is the empty string.
 
     ; basic-visible is VCHAR minus DQUOTE, ";", "(", ")", and "\".
     basic-visible = %x21 / %x23-27 / %x2A-3A / %x3C-5B / %x5D-7E
-    escaped-char  = "\" (VCHAR / WSP)
+    unescaped = %x21 / %x23-27 / %x2A-2F / %x3C-5B / %x5D-7E
+    escaped-number = (%x30-31 2DIGIT) / (%x32 (%x30-34 DIGIT) / (%x35 %x30-35))
+    escaped-char  = "\" (unescaped / WSP / escaped-number)
     contiguous    = 1*(basic-visible / escaped-char)
     quoted-string = DQUOTE *(contiguous / WSP) DQUOTE
     value         = quoted-string / contiguous
